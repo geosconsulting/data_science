@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "autos = read.csv(\"autos.csv\")\nmakes = read.csv(\"makes.csv\")\n\nlibrary(dplyr)\n\nillo <- inner_join(autos,makes,by=\"make.id\",suffix = c(\".autos\",\".makes\"))\n\n",
+    "created" : 1473702055580.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1327550147",
+    "id" : "76971A56",
+    "lastKnownWriteTime" : 22236875351851081,
+    "last_content_update" : 1473759512351,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

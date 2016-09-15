@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "## Function to clean and prepare the auto data\nprep.auto <- function(df, col.names){\n  require(dplyr) ## Make sure dplyr is loaded\n  \n  ## set the column names. \n  names(df) <- col.names\n  \n  ## Eliminate unneeded columns\n  df <- df[,!(names(df) %in% \n                c('symboling', 'normalizedlosses', 'makeid'))]\n \n  ## Coerce some character columns to numeric \n  ## Uncomment if NOT in Azure ML\n  # cols <- c('price', 'bore', 'stroke', 'horsepower', 'rpm')\n  # df[, cols] <- lapply(df[, cols], as.numeric)\n\n  ## Add a log transformed column for price using dplyr mutate\n  df <- df %>% mutate(lnprice = log(price))\n  \n  ## Remove rows with NAs \n  df <- df[complete.cases(df), ]\n  \n  ## Remove duplicate rows\n  df <- df %>% filter (! duplicated(df,))\n  \n  ## Consolidate the number of cylinders\n  df <- df %>%\n    mutate(cylinders = ifelse(cylinders %in% c(\"four\", \"three\", \"two\"), \"three-four\",\n           ifelse(cylinders %in% c(\"five\", \"six\"), \"five-six\", \"eight-twelve\")))\n  df\n}\n\n## Define column names\ncol.names <- c('symboling', 'normalizedlosses', 'makeid', 'fueltype', 'aspiration', 'doors',\n               'body', 'drive', 'engineloc', 'wheelbase',\n               'length', 'width', 'height', 'weight', 'enginetype',\n               'cylinders', 'enginesize', 'fuelsystem', 'bore', 'stroke',\n               'compression', 'horsepower', 'rpm', 'citympg',\n               'highwaympg', 'price', 'make')\n\n## R code to prep the auto data\nautos.price <- maml.mapInputPort(1) # read autos data frame from port 1\nout <- prep.auto(autos.price, col.names) # Transform the data\nmaml.mapOutputPort(\"out\") ## Output the prepared data frame",
+    "created" : 1473920558704.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3966513407",
+    "id" : "B98E20FA",
+    "lastKnownWriteTime" : 1464956860,
+    "last_content_update" : 1464956860,
+    "path" : "~/Programmazione/Microsoft/Data Science Essentials/DAT203.1x/Mod5/PrepData.R",
+    "project_path" : "Mod5/PrepData.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
